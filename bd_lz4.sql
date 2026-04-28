@@ -1,4 +1,3 @@
-
 ---1---
 create database  SelesDB
 
@@ -32,13 +31,6 @@ ManagerContact nvarchar(50) not null default 'Не назначен',
 CreateDate datetime not null default getdate() 
 )
 
-insert into Warehouses (Location, Capacity) values
-('Москва, ул. Ленина 10', 5000.0),
-('Санкт-Петербург, пр. Мира 5', 3500.0),
-('Екатеринбург, ул. Горького 12', 2000.0),
-('Казань, ул. Баумана 1', 1500.0),
-('Новосибирск, ул. Красная 8', 4000.0);
-
 create table Shipments(
 ShipmentID int  identity(1,1) primary key,
 WarehouseID int not null,
@@ -49,15 +41,6 @@ DispathDate datetime,
 Status nvarchar(20) not null default 'Ожидает отправки',
 constraint FK_Warehouses foreign key (WarehouseID) references Warehouses(WarehouseID)
 )
-
-insert into Shipments (WarehouseID, OrderID, TrackingCode, Weight) values
-(1, 1, 'TRK001MSK', 5.2),
-(2, 2, 'TRK002SPB', 1.5),
-(1, 4, 'TRK003MSK', 12.0),
-(3, 6, 'TRK004EKT', 3.4),
-(5, 8, 'TRK005NSK', 0.8),
-(2, 10, 'TRK006SPB', 7.1),
-(4, 3, 'TRK007KZN', 2.0);
 
 ---2---
 create function dbo.fn_GetCustomers()
@@ -122,7 +105,7 @@ begin
 		begin
 			if not exists (select 1 from LogisticsDB.dbo.Warehouses where WarehouseID = 1)
 				begin
-					raiserror ('Ошибка, склад с WarehouseID = 1 не найден.', 16, 1)
+					raiserror ('Ошибка, склад с WarehouseID = 1 не найден.', 0, 0)
 					return
 				end
 
